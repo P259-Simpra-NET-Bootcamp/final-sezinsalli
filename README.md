@@ -1,13 +1,16 @@
 #  Simpra Final Project
 
-Dijital ürünler satan ve mobil ve web olmak üzere 3 farklı kanal üzerinden 
-satış yapabilen bir e-ticaret sitesi geliştirilmiştir. Proje N-Layer Architecture 
-baz alınarak geliştilmiş olup, .Net Core 6 teknolojisi kullanıldı.
+Dijital ürünler satış yapılabilen bir e-ticaret sitesi geliştirilmiştir. Proje N-Layer Architecture baz alınarak geliştilmiş olup, .Net Core 6 teknolojisi kullanıldı.
 
 
 ## Projeyi çalıştırmak için :
 
+1. Projenin ana dizininde terminal açılır. "docker-compose up -d"
+2. Proje kestrel üzerinden local'de ayağa kaldırılır.
 
+## Postman Dokümantasyon: 
+
+https://documenter.getpostman.com/view/20405564/2s93z6cNwT
 
 ## Projede Kullanılan Teknolojiler ve Frameworkler
 
@@ -24,19 +27,26 @@ baz alınarak geliştilmiş olup, .Net Core 6 teknolojisi kullanıldı.
 11. Serilog
 12. Autofac
 13. Jwt
-14. İdentitiy User
+14. Identitiy User
+15. Unit Test ve Moq
+    
 
 ## Projenin Detay ve İçerikleri
 
-1. Projenin Database’i MsSQL kullanılılarak geliştirildi.
+1. Projenin Database’i MsSQL kullanılarak geliştirildi.
 2. Projenin backend’i ‘Web API’ projesi olup, NLayer Architecture yapısına uygun olarak dizayn edildi.
 3. RESTAPI PRINCIPLES VE CRUD Operations kullanıldı. (Model kullanarak GetAll, GetById , Put , Post , Delete methodlarini icen bir controller implement edildi. )
 4. Generic Repository Design Pattern ve Unit of Work Design Pattern uygulandı.
 5. Fluent Validation ve AutoMapper kullanıldı.
 6. CustomResponse ve Middleware kullanıldı.
 7. Put ve Post apilerin de model validation hazirlandı.
-8. SOLID Prensipleri.
-9. DEvam edecek
+8. SOLID Prensiplerine uygun tasarım yapıldı.
+9. RabbitMQ ile asenkron iletişim sağlandı. Basket Controllerda "CheckOut" endpointi ile asenkron olarak Order oluşturmak için mesaj gönderiyoruz.Bu mesajı "CreateOrderMessageCommandConsumer" sınıfında yakalayıp orderservice "CreateOrderAsync"  metoduna gönderiyoruz.Ayrıca senkron olarak da OrderController'da "Save" endpointi ile ordermodel oluşturabiliyoruz. Kod tekrarından kaçınmak için 2 tarafta orderservice "CreateOrderAsync" metodunu kullanır. 
+10. Redis basket tarafında kullanıcının sepete eklediği ürünleri güncellemek, görüntülemek ve silmek için kullanılır.(Basket Service ve Redis Service)
+11. Serilog kütüphenesi kullanıldı.
+12. Autofac kullanıldı. Autofact'in "RegisterAssemblyTypes" kullanarak sonu repository ya da service ile biten tüm classları DI Container'a ekliyoruz.
+13. Unit Test kodları Moq kütüphanesi kullanılılarak yazıldı(OrderService).
+14. Kredi kartı bilgilerini hashlemek için BCrypt.Net kullanıldı.
 
 ## Projenin Yapısı
 
@@ -82,10 +92,15 @@ ve genellikle diğer katmanlarla doğrudan etkileşim halindedir.
 
    -İş birimi deseni, bir dizi ilgili veritabanı işlemini tek bir iş birimi içinde gruplandırarak, 
     bu işlemlerin aynı işlem oturumunda toplu olarak tamamlanmasını sağlar. 
-8.
-9.
-10.
-   
+
+8.Attribute
+- Response için guid id üretmektedir.
+9.RabbitMQ
+- RabbitMq için const olarak config değerleri yer almaktadır.
+10.Role
+  - Const olarak kullanıcı rolleri yer almaktadır.
+11. Enum
+  -Product ve order için status değerleri yer almaktadır.
 
 #### Repository Layer(Simpra.Repository) 
 
@@ -107,7 +122,6 @@ ve "Configure" yöntemini içeririrler. Bu yöntem içinde, entity tablo adı, v
 4.Repositories
 
 - Generic Repository uygulandı:
---generic repository fotografı:!!!!!!
 
 public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity : Bu satırda GenericRepository sınıfı tanımlanır ve IGenericRepository<T> arayüzünü uygular. T, BaseEntity 
 sınıfından türeyen herhangi bir sınıf olabilir.
@@ -212,6 +226,7 @@ NotFound Exception, C# dilinde belirli bir kaynağın bulunamaması durumunda f�
 
 4.Messages:
 
+RabbitMQ ile mesaj gönderebilmek için "CreateOrderMessageCommand" oluşturulmuştur.
 
 5.Response: 
 
@@ -230,7 +245,7 @@ Bu sınıfın ayrıca bir dizi statik metodu vardır:
 
 6.Service
 
-###BaseService :Bu temel hizmet sınıfı, genel CRUD (Oluşturma, Okuma, Güncelleme, Silme) işlemlerini gerçekleştirmek için kullanılır. 
+### BaseService :Bu temel hizmet sınıfı, genel CRUD (Oluşturma, Okuma, Güncelleme, Silme) işlemlerini gerçekleştirmek için kullanılır. 
 IGenericRepository<T> ve IUnitOfWork bağımlılıklarını enjekte eder ve bu bağımlılıkları kullanarak ilgili işlemleri gerçekleştirir. Hataların kaydedilmesi ve uygun istisna mesajlarının
 fırlatılması için Serilog kütüphanesi kullanılır.
 
@@ -254,61 +269,30 @@ Where: Bu metot, belirli bir koşula uyan varlıkları sorgulamak için kullanı
 
 WhereWithInclude: Bu metot, belirli bir koşula uyan varlıkları sorgulamak ve ilişkili varlıkları dahil etmek için kullanılır. Verilen ifadeye uyan varlıkları ve belirtilen ilişkili varlıkları IEnumerable<T> türünde geri döndürür. Eğer bir hata oluşursa, WhereWithInclude Exception başlığıyla bir hata günlüğe kaydedilir ve bir Exception fırlatılır.
 
-##CaregoryService: BaseService<Category> sınıfını miras alır ve ICategoryService arabirimini uygular.
-
-
--- public override async Task<Category> GetByIdAsync(int id):Bu metot, belirli bir kategoriye ait veriyi id değerine göre getirmek için kullanılır. 
-CategoryRepository üzerinden GetByIdWithIncludeAsync metodu çağrılarak kategori verisi ve ilişkili ürünleri alınır.
-
--- public override async Task RemoveAsync(Category entity):
-
-
-
-###ProductService: 
-
---public async Task<Product> ProductStockUpdateAsync(ProductStockUpdateRequest stockUpdateRequest)
-
---public override async Task<IEnumerable<Product>> GetAllAsync()
-
-
-##OrderService:
-
-
---public override async Task<IEnumerable<Order>> GetAllAsync()
-       
-
---public override async Task<Order> GetByIdAsync(int id)
-
-
---
-
-
-
+##AuthenticationService,BasketService,CouponService, OrderService,ProductService,RedisService,UserService,CategoryService hazırlandı.
 
 ###Simpra.Api
-
 
 
 -Modules:Autofac kullanarak bağımlılık enjeksiyonunu yapılandıran ve hizmetlerin ve depoların modülünü tanımlayan RepoServiceModule sınıfını içerir. 
 Bu yapılandırma, projede kullanılan IRepository ve IService uygulamalarının otomatik olarak kaydedilmesini ve çözünürlük yapısının oluşturulmasını sağlar.
 Bu sayede, herhangi bir sınıfın bağımlılıkları çözümlenirken uygun IRepository ve IService uygulamaları otomatik olarak enjekte edilebilir.
-
 -Middleware:
- RequestLoggingMiddleware:
- ErrorHandlerMiddleware:
- UseCustomExceptionHandler:
 
--logs:
+RequestLoggingAndErrorHandlerMiddleware: Hataları handle edebilmek ve loglama uygulayabilmek için uygulandı.
 
--helper:
+-logs:Log dosyaları yer alır aynı zamanda console'da da gösteririr.
 
--Consumer:
+-helper:BCrypt.Net. paketi kullanarak kredi kartı bilgilerini hashler.
 
--Extensions:
+-Consumer:RabbitMQ'dan gönderilen mesajı yakalamaya yarar.
 
--Controller: 
+-Extensions: Db, Jwt, RabbitMQ, Redis için extension metotları yazılmıştır. Ayrıca "MigrateAndSeedUserExtension" ile program ayağa kalktığında database'e henüz yansımamış güncel migrationları database'e yansıtıyor eğer
+sistemde kullanıcı yok ise default olarak 1'er adet admin ve user role sahip kullanıcı oluşturuyor.
 
--Settings :
+-Controller: AuthenticationController, BasketController, CategoryController, CouponController, ProductController, OrderController, UserController, 
+
+-Settings :Options pattern kullanırak doldurmak için Redis Setting isminde sınıf tanımlanmıştır. 
 
 
 
