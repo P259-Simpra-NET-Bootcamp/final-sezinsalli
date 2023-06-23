@@ -9,6 +9,7 @@ Dijital ürünler satış yapılabilen bir e-ticaret sitesi geliştirilmiştir. 
 2. Proje kestrel üzerinden local'de ayağa kaldırılır.
 
 ## Postman Dokümantasyon: 
+Postman ile gerekli dokümantasyon hazırlanmıştır.Örnek request ve örnek responslarda eklenmiştir. Her bir Controller ile ilgili açıklama yapılmıştır.
 
 https://documenter.getpostman.com/view/20405564/2s93z6cNwT
 
@@ -55,69 +56,74 @@ https://documenter.getpostman.com/view/20405564/2s93z6cNwT
 N-katmanlı (N-layer) mimari, bir yazılım uygulamasını mantıksal olarak katmanlara bölen bir yaklaşımdır. 
 Her katman belirli bir sorumluluğu yerine getirir ve daha yüksek seviyeli katmanlar, daha düşük seviyeli katmanlara bağımlı olur.
 
-#### Core Layer(Simpra.Core)
+### Core Layer(Simpra.Core)
 
--  N-katmanlı mimaride,core katmanı, mimarinin ortasında yer alır.Core katmanı,sistemin işlevselliğinin büyük bir kısmını içerir 
+N-katmanlı mimaride,core katmanı, mimarinin ortasında yer alır.Core katmanı,sistemin işlevselliğinin büyük bir kısmını içerir 
 ve genellikle diğer katmanlarla doğrudan etkileşim halindedir.
 
 
-1. Entity
+1.Entity
   
-  - Veritabanı tasarımı bağlamında "entity", veritabanında depolanan bilgilerin bir temsilcisidir.    
+Veritabanı tasarımı bağlamında "entity", veritabanında depolanan bilgilerin bir temsilcisidir.    
    
-2. Jwt
+2.Jwt
 
-   "JwtConfig" sınıfı, bir JWT yapılandırma dosyasındaki ayarları temsil etmek için kullanılır. Bu sınıfın özellikleri, JWT oluşturmak veya doğrulamak için kullanılan bazı değerleri içerir.
-   "JwtConfig" sınıfı appsettings.json dosyasındaki "JwtConfig" bölümündeki değerleri temsil eder.
+"JwtConfig" sınıfı, bir JWT yapılandırma dosyasındaki ayarları temsil etmek için kullanılır. Bu sınıfın özellikleri, JWT oluşturmak veya doğrulamak için kullanılan bazı değerleri içerir.
+"JwtConfig" sınıfı appsettings.json dosyasındaki "JwtConfig" bölümündeki değerleri temsil eder.
 
-3. Logger
+3.Logger
 
-   "RequestProfilerModel" sınıfı,  Bu sınıf, bir web isteği (request) ve yanıt (response) için geliştirilmiş bir profil modelidir.web isteklerinin ve yanıtlarının izlenmesi veya profillemesi için kullanılabilir. 
-    İstek zamanı, yanıt zamanı, istek içeriği, yanıt içeriği ve ilgili HTTP bağlamı gibi bilgileri bu modelde saklayabilirsiniz. Bu bilgileri kullanarak performans analizi yapabilir, hataları takip edebilir veya 
-    istatistikler oluşturabiliriz.
+"RequestProfilerModel" sınıfı,  Bu sınıf, bir web isteği (request) ve yanıt (response) için geliştirilmiş bir profil modelidir.web isteklerinin ve yanıtlarının izlenmesi veya profillemesi için kullanılabilir. 
+İstek zamanı, yanıt zamanı, istek içeriği, yanıt içeriği ve ilgili HTTP bağlamı gibi bilgileri bu modelde saklayabilirsiniz. Bu bilgileri kullanarak performans analizi yapabilir, hataları takip edebilir veya 
+istatistikler oluşturabiliriz.
 
-4. LogType
+4.LogType
 
-    Bu sınıf, uygulamanızda belirli log türlerini tanımlamak ve kullanmak için kullanılabilir. Loglarınızı kaydetmek veya raporlamak için bu sabit değerleri kullanabilirsiniz.
+Bu sınıf, uygulamanızda belirli log türlerini tanımlamak ve kullanmak için kullanılabilir. Loglarınızı kaydetmek veya raporlamak için bu sabit değerleri kullanabilirsiniz.
 
-5. Repository
+5.Repository
 
-   Bu arabirim, genel bir veritabanı işlem arabirimini tanımlar ve genel CRUD (Create, Read, Update, Delete) işlemlerini destekler.Core katmanında Interfaceler yer almaktadır.
+Bu arabirim, genel bir veritabanı işlem arabirimini tanımlar ve genel CRUD (Create, Read, Update, Delete) işlemlerini destekler.Core katmanında Interfaceler yer almaktadır.
   
-6. Service
+6.Service
    
-   Service arabirimleri, service davranışını ve işlevselliğini tanımlayan sözleşmelerdir. 
+Service arabirimleri, service davranışını ve işlevselliğini tanımlayan sözleşmelerdir. 
 
-7. UnitofWork
+7.UnitofWork
 
-   -İş birimi deseni, bir dizi ilgili veritabanı işlemini tek bir iş birimi içinde gruplandırarak, 
-    bu işlemlerin aynı işlem oturumunda toplu olarak tamamlanmasını sağlar. 
+İş birimi deseni, bir dizi ilgili veritabanı işlemini tek bir iş birimi içinde gruplandırarak, bu işlemlerin aynı işlem oturumunda toplu olarak tamamlanmasını sağlar. 
 
 8.Attribute
-- Response için guid id üretmektedir.
+
+Response için guid id üretmektedir.
+     
 9.RabbitMQ
-- RabbitMq için const olarak config değerleri yer almaktadır.
+
+RabbitMq için const olarak config değerleri yer almaktadır.
+     
 10.Role
-  - Const olarak kullanıcı rolleri yer almaktadır.
-11. Enum
-  -Product ve order için status değerleri yer almaktadır.
 
-#### Repository Layer(Simpra.Repository) 
+Const olarak kullanıcı rolleri yer almaktadır.
 
-Packages:
+11.Enum
+    
+Product ve order için status değerleri yer almaktadır.
 
-1. AppDbContext
+### Repository Layer(Simpra.Repository) 
 
-- Bu sınıf, bir veritabanı bağlantısı sağlar ve tablolara karşılık gelen DbSet'lerle etkileşimde bulunur. Ayrıca, SaveChangesAsync() ve SaveChanges() yöntemleri üzerine yazılarak, 
+
+1.AppDbContext
+
+Bu sınıf, bir veritabanı bağlantısı sağlar ve tablolara karşılık gelen DbSet'lerle etkileşimde bulunur. Ayrıca, SaveChangesAsync() ve SaveChanges() yöntemleri üzerine yazılarak, 
 varlık değişiklikleri yapıldığında otomatik olarak "CreatedAt" ve "UpdatedAt" alanlarını günceller. Ayrıca, OnModelCreating() yöntemi aracılığıyla model yapılandırması tanımlanır. 
 Bu sınıf genellikle uygulamanın veritabanı işlemlerini yönetmek için kullanılır.
 
-2. Configurations
+2.Configurations
   
--Her entity tipi için ayrı bir yapılandırma sınıfı oluşturarak daha ayrıntılı kontrol sağlandı. Bu sınıflara, "IEntityTypeConfiguration<T>" arabirimini uyguladık
+Her entity tipi için ayrı bir yapılandırma sınıfı oluşturarak daha ayrıntılı kontrol sağlandı. Bu sınıflara, "IEntityTypeConfiguration<T>" arabirimini uyguladık
 ve "Configure" yöntemini içeririrler. Bu yöntem içinde, entity tablo adı, veri tipleri, zorunlulukları ve özellikleri, tabloların ilişkileri ayarlandı.
 
-3. Migrations
+3.Migrations
  
 4.Repositories
 
@@ -143,7 +149,7 @@ _dbSet.AnyAsync(expression) yöntemi çağrılır.
 public IQueryable<T> GetAll() : Tüm varlıkları almak için kullanılır. AsNoTracking() yöntemi, varlıkların takip edilmediğini belirtir ve performansı artırır.
 
 public async Task<List<T>> GetAllWithIncludeAsync(params string[] includes) : Belirli bir varlık için ilişkili varlıkları dahil ederek tüm varlıkları almak için kullanılır. "includes"
- parametresi ile dahil edilecek varlık ilişkileri belirtilir. Bu yöntem, varlıkların yüksek miktarda sorgulanmasına neden olabileceğinden performansı etkileyebilir.
+parametresi ile dahil edilecek varlık ilişkileri belirtilir. Bu yöntem, varlıkların yüksek miktarda sorgulanmasına neden olabileceğinden performansı etkileyebilir.
 
 public async Task<T> GetByIdAsync(int id) : Belirli bir kimlik (id) değerine sahip varlığı almak için kullanılır. Veritabanı bağlamında _dbSet.FindAsync(id) yöntemi çağrılır.
 
@@ -164,18 +170,16 @@ public IEnumerable<T> WhereWithInclude(Expression<Func<T, bool>> expression, par
 Son olarak, "includes" parametresinde belirtilen ilişkili varlıkları sorguya dahil etmek için Aggregate() yöntemi kullanılır. Sorgunun sonucu liste olarak döndürülür.
 
 
--CategoryRepository, CouponRepository, OrderRepository ve ProductRepository GenericRepository<T>'den kalıtım almıştır.
+- CategoryRepository, CouponRepository, OrderRepository ve ProductRepository GenericRepository<T>'den kalıtım almıştır.
 
 
-5. SEED
+5.SEED
 
 CategorySeed ve ProductSeed olmak üzere 2'ye ayırılır.
 
 6.UnitOfWork
 
 UnitOfWork, veritabanı işlemlerini tek bir iş birimi olarak gruplamayı ve daha sonra bu iş birimini tamamlamayı veya geri almayı sağlar.
-
-
 - UnitOfWork sınıfının bir kurucu metodu vardır ve bu metot, bir AppDbContext örneği alır. AppDbContext örneği, Entity Framework veya benzeri bir ORM (nesne ilişkisel eşlem) aracılığıyla veritabanına erişimi sağlar.
 - CompleteAsync metodu, _context.SaveChangesAsync() yöntemini çağırarak asenkron olarak değişiklikleri veritabanına kaydeder.
 - Complete metodu, _context.SaveChanges() yöntemini çağırarak senkron olarak değişiklikleri veritabanına kaydeder.
@@ -188,36 +192,34 @@ Ardından, _context.SaveChangesAsync() yöntemi çağırılarak değişiklikler 
  Clean metodu, disposing parametresine bağlı olarak _context örneğini temizler.
 
 
-#### Shema Layer(Simpra.Shema) 
+### Shema Layer(Simpra.Shema) 
 
 
-- Entitylerin request ve response modellerini barındırır.
+1.Entitylerin request ve response modellerini barındırır.
 
-- Request Modeller: İstemci (client) tarafından sunucuya gönderilen isteği temsil eder. Bu model genellikle HTTP isteklerinde veya API çağrılarında kullanılır.
+2.Request Modeller: İstemci (client) tarafından sunucuya gönderilen isteği temsil eder. Bu model genellikle HTTP isteklerinde veya API çağrılarında kullanılır.
 
-- Response Modeller: Response modeli ise sunucudan gelen yanıtı temsil eder. Sunucu, isteği aldıktan sonra işler ve bir yanıt döner. Bu yanıt, işlem sonucunda sunucu tarafından oluşturulan veriyi ve gerekli durum kodunu içerir. 
-
-
-
-####Service Layer (Simpra.Service)
+3.Response Modeller: Response modeli ise sunucudan gelen yanıtı temsil eder. Sunucu, isteği aldıktan sonra işler ve bir yanıt döner. Bu yanıt, işlem sonucunda sunucu tarafından oluşturulan veriyi ve gerekli durum kodunu içerir. 
 
 
 
-1.Fluent Validation :  
+### Service Layer (Simpra.Service)
+
+
+1.Fluent Validation :
 .NET tabanlı bir kütüphanedir ve doğrulama (validation) kurallarını tanımlamak ve uygulamak için kullanılır. 
-
--Fluent Validation, genellikle giriş doğrulaması (input validation) veya veri geçerliliği kontrolü gibi senaryolarda kullanılır. Örneğin, bir kullanıcının bir formu doldurduğu bir senaryoda, 
+Fluent Validation, genellikle giriş doğrulaması (input validation) veya veri geçerliliği kontrolü gibi senaryolarda kullanılır. Örneğin, bir kullanıcının bir formu doldurduğu bir senaryoda, 
 kullanıcının girdiği verilerin geçerli olup olmadığını doğrulamak için Fluent Validation kullanılabilir.
 
 
-2. Mapper:
+2.Mapper:
  
--  Mapper, bir veri modelini başka bir veri modeline dönüştürmek veya eşlemek için kullanılan bir bileşendir. Genellikle farklı veri yapıları arasında bilgilerin aktarılması veya dönüştürülmesi gerektiğinde kullanılır.
+Mapper, bir veri modelini başka bir veri modeline dönüştürmek veya eşlemek için kullanılan bir bileşendir. Genellikle farklı veri yapıları arasında bilgilerin aktarılması veya dönüştürülmesi gerektiğinde kullanılır.
 
 
 3.Exceptions: 
 
--Exception, C# programlama dilinde bir hata veya istisnai durumu temsil eden bir sınıftır. Bir exception, programın normal akışını değiştirerek hatanın tespit edilmesini, yönetilmesini ve işlenmesini sağlar.
+Exception, C# programlama dilinde bir hata veya istisnai durumu temsil eden bir sınıftır. Bir exception, programın normal akışını değiştirerek hatanın tespit edilmesini, yönetilmesini ve işlenmesini sağlar.
 
 Client-side Exception, istemci tarafında (örneğin, bir masaüstü uygulaması veya web tarayıcısı) ortaya çıkan hataları temsil eder. Bu tür hatalar genellikle kullanıcı etkileşimine veya istemcinin donanım veya
 yazılım sınırlamalarına bağlı olarak ortaya çıkar. 
@@ -230,7 +232,7 @@ RabbitMQ ile mesaj gönderebilmek için "CreateOrderMessageCommand" oluşturulmu
 
 5.Response: 
 
-- Custom Response :Bu sınıf, başarı durumunu, veriyi ve hataları saklamak için kullanılır ve genel olarak API isteklerine yanıt olarak döndürülür.
+Custom Response :Bu sınıf, başarı durumunu, veriyi ve hataları saklamak için kullanılır ve genel olarak API isteklerine yanıt olarak döndürülür.
 "Data" adında bir özellik, generic olarak belirlenen türde veri taşımak için kullanılır.
 "StatusCode" adında bir özellik, durum kodunu temsil eder ve [JsonIgnore] özniteliği ile serileştirme işlemlerinde görmezden gelinir.
 "Errors" adında bir özellik, bir dize listesi alarak hataları temsil eder.
@@ -241,11 +243,11 @@ Bu sınıfın ayrıca bir dizi statik metodu vardır:
 "Fail" metodu, bir hata durumunu temsil eder ve "statusCode" ve "errors" parametrelerini alır. Bu metot, "CustomResponse<T>" türünde bir nesne oluşturarak hata durumunu ve hata listesini içerir.
 İkinci bir "Fail" metodu, bir hata durumunu temsil eder ve "statusCode" ve "error" parametrelerini alır. Bu metot, yalnızca tek bir hatayı içeren bir "CustomResponse<T>" nesnesi oluşturur.
 
-- "NoContent" sınıfını tanımlar. Ancak, sınıfın içeriği boştur ve herhangi bir özellik veya davranışa sahip değildir.
+"NoContent" sınıfını tanımlar. Ancak, sınıfın içeriği boştur ve herhangi bir özellik veya davranışa sahip değildir.
 
 6.Service
 
-### BaseService :Bu temel hizmet sınıfı, genel CRUD (Oluşturma, Okuma, Güncelleme, Silme) işlemlerini gerçekleştirmek için kullanılır. 
+- BaseService :Bu temel hizmet sınıfı, genel CRUD (Oluşturma, Okuma, Güncelleme, Silme) işlemlerini gerçekleştirmek için kullanılır. 
 IGenericRepository<T> ve IUnitOfWork bağımlılıklarını enjekte eder ve bu bağımlılıkları kullanarak ilgili işlemleri gerçekleştirir. Hataların kaydedilmesi ve uygun istisna mesajlarının
 fırlatılması için Serilog kütüphanesi kullanılır.
 
@@ -269,30 +271,37 @@ Where: Bu metot, belirli bir koşula uyan varlıkları sorgulamak için kullanı
 
 WhereWithInclude: Bu metot, belirli bir koşula uyan varlıkları sorgulamak ve ilişkili varlıkları dahil etmek için kullanılır. Verilen ifadeye uyan varlıkları ve belirtilen ilişkili varlıkları IEnumerable<T> türünde geri döndürür. Eğer bir hata oluşursa, WhereWithInclude Exception başlığıyla bir hata günlüğe kaydedilir ve bir Exception fırlatılır.
 
-##AuthenticationService,BasketService,CouponService, OrderService,ProductService,RedisService,UserService,CategoryService hazırlandı.
+AuthenticationService,BasketService,CouponService, OrderService,ProductService,RedisService,UserService,CategoryService hazırlandı.
 
-###Simpra.Api
+### Simpra.Api
 
 
--Modules:Autofac kullanarak bağımlılık enjeksiyonunu yapılandıran ve hizmetlerin ve depoların modülünü tanımlayan RepoServiceModule sınıfını içerir. 
+1.Modules:
+Autofac kullanarak bağımlılık enjeksiyonunu yapılandıran ve hizmetlerin ve depoların modülünü tanımlayan RepoServiceModule sınıfını içerir. 
 Bu yapılandırma, projede kullanılan IRepository ve IService uygulamalarının otomatik olarak kaydedilmesini ve çözünürlük yapısının oluşturulmasını sağlar.
 Bu sayede, herhangi bir sınıfın bağımlılıkları çözümlenirken uygun IRepository ve IService uygulamaları otomatik olarak enjekte edilebilir.
--Middleware:
 
+2.Middleware:
 RequestLoggingAndErrorHandlerMiddleware: Hataları handle edebilmek ve loglama uygulayabilmek için uygulandı.
 
--logs:Log dosyaları yer alır aynı zamanda console'da da gösteririr.
+3.logs:
+Log dosyaları yer alır aynı zamanda console'da da gösteririr.
 
--helper:BCrypt.Net. paketi kullanarak kredi kartı bilgilerini hashler.
+4.helper:
+BCrypt.Net. paketi kullanarak kredi kartı bilgilerini hashler.
 
--Consumer:RabbitMQ'dan gönderilen mesajı yakalamaya yarar.
+5.Consumer:
+RabbitMQ'dan gönderilen mesajı yakalamaya yarar.
 
--Extensions: Db, Jwt, RabbitMQ, Redis için extension metotları yazılmıştır. Ayrıca "MigrateAndSeedUserExtension" ile program ayağa kalktığında database'e henüz yansımamış güncel migrationları database'e yansıtıyor eğer
+6.Extensions:
+Db, Jwt, RabbitMQ, Redis için extension metotları yazılmıştır. Ayrıca "MigrateAndSeedUserExtension" ile program ayağa kalktığında database'e henüz yansımamış güncel migrationları database'e yansıtıyor eğer
 sistemde kullanıcı yok ise default olarak 1'er adet admin ve user role sahip kullanıcı oluşturuyor.
 
--Controller: AuthenticationController, BasketController, CategoryController, CouponController, ProductController, OrderController, UserController, 
+7.Controller:
+AuthenticationController, BasketController, CategoryController, CouponController, ProductController, OrderController, UserController, 
 
--Settings :Options pattern kullanırak doldurmak için Redis Setting isminde sınıf tanımlanmıştır. 
+8.Settings :
+Options pattern kullanırak doldurmak için Redis Setting isminde sınıf tanımlanmıştır. 
 
 
 
