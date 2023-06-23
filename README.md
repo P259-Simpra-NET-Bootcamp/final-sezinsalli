@@ -6,10 +6,8 @@ baz alınarak geliştilmiş olup, .Net Core 6 teknolojisi kullanıldı.
 
 
 ## Projeyi çalıştırmak için :
-1.  Simpra.Api -> appsettings.json -> MsSQL tanımlamasındaki ‘Server’ bilgisini kendiMsSQL server adı ile değiştiriniz.
-2.  Package Manager Console -> Default Project -> Simpra.Repository seçilir.
-3.  Add-migration v1.1 veya EntityFramework6\Add-Migration initial komutu girilerek migration oluşturulur.
-4.  Update-database komutu ile MsSQL’de ‘SimpraFinalProjectDb’ ve tablolar oluşturulur.
+
+
 
 ## Projede Kullanılan Teknolojiler ve Frameworkler
 
